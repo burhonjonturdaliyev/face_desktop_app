@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme(context),
       themeMode: ThemeMode.light,
       title: 'Login Screen',
-      initialRoute: RouteNames.login,
+      initialRoute: RouteNames.example,
       routes: Routes.baseRoutes,
     );
   }
