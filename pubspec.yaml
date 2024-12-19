@@ -37,6 +37,8 @@ dependencies:
   http: ^1.2.2
   file_picker: ^8.1.6
   http_auth: ^1.0.4
+  flutter_bloc: ^8.1.6
+  bloc: ^8.1.4
 
 dev_dependencies:
   flutter_test:
