@@ -39,6 +39,8 @@ dependencies:
   http_auth: ^1.0.4
   flutter_bloc: ^8.1.6
   bloc: ^8.1.4
+  image_picker: ^1.1.2
+  window_manager: ^0.4.3
 
 dev_dependencies:
   flutter_test:

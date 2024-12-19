@@ -2,7 +2,7 @@ import 'package:face_app/screens/add_user/add_user_screen.dart';
 import 'package:face_app/screens/all_users/all_user_screen.dart';
 import 'package:face_app/screens/example/example_screen.dart';
 import 'package:face_app/screens/main/bloc/main_bloc.dart';
-import 'package:face_app/util/widgets/sidebar.dart';
+import 'package:face_app/util/widgets/sidebar/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
