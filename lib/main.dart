@@ -1,9 +1,20 @@
 import 'package:face_app/routes/routes.dart';
+import 'package:face_app/screens/main/bloc/main_bloc.dart';
 import 'package:face_app/util/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<MainBloc>(
+          create: (context) => MainBloc(),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

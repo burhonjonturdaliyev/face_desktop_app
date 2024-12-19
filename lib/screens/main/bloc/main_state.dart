@@ -9,4 +9,6 @@ final class MainAllUsersState extends MainState {}
 
 final class MainAddUserState extends MainState {}
 
-final class MainUserManagement extends MainState {}
+final class MainUserManagementState extends MainState {}
+
+final class MainExampleState extends MainState {}
