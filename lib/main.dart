@@ -11,7 +11,7 @@ void main() async{
   final screenSize = await windowManager.getSize();
   WindowOptions windowOptions = WindowOptions(
     size: screenSize,
-    minimumSize: const Size(800, 800),
+    minimumSize: const Size(800, 600),
     center: true,
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
