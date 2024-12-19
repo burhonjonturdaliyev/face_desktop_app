@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:window_manager/window_manager.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
   final screenSize = await windowManager.getSize();
@@ -19,7 +19,6 @@ void main() async{
     await windowManager.focus();
   });
   runApp(
-
     MultiBlocProvider(
       providers: [
         BlocProvider<MainBloc>(
@@ -32,6 +31,8 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

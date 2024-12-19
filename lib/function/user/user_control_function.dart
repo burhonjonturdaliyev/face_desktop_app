@@ -59,8 +59,9 @@ class UserControlFunction {
     return params;
   }
 
-  Future postFile(File faceImageFile) async {
-    const uri = UserControlApi.addPhoto;
+  Future<void> postFile(File faceImageFile) async {
+    const uri =
+        "http://192.168.1.100/ISAPI/Intelligent/FDLib/FaceDataRecord?format=json"; // Replace with your actual API URL
     final url = Uri.parse(uri);
 
     // Check if the file exists and is not empty
@@ -68,6 +69,8 @@ class UserControlFunction {
       print("File does not exist: ${faceImageFile.path}");
       return;
     }
+
+    print(faceImageFile.path);
 
     final fileLength = await faceImageFile.length();
     if (fileLength == 0) {
@@ -81,10 +84,9 @@ class UserControlFunction {
     if (response.statusCode == 401) {
       final authHeader = response.headers['www-authenticate'];
       if (authHeader != null) {
-        // Step 2: Parse the `WWW-Authenticate` header to extract parameters
+        // Parse the `WWW-Authenticate` header to extract parameters
         final parts = _parseAuthenticateHeader(authHeader);
 
-        // Step 3: Generate the Digest Authentication header
         final ha1 = _md5(
             '${HikvisionAuthDatas.username}:${parts['realm']}:${HikvisionAuthDatas.password}');
         final ha2 = _md5('POST:${parts['uri']}');
@@ -96,37 +98,34 @@ class UserControlFunction {
             'uri="${parts['uri']}", '
             'response="$responseDigest"';
 
-        // Step 4: Prepare multipart request to send form data and file
-        final request = http.MultipartRequest('POST', url)
-          ..headers['Authorization'] = authValue
-          ..fields['FaceDataRecord'] =
-              jsonEncode({"faceLibType": "blackFD", "FDID": "1", "FPID": "21"})
-          ..files.add(
-            await http.MultipartFile.fromPath(
-              'FaceImage',
-              faceImageFile.path,
-            ),
-          );
+        final request = http.MultipartRequest('POST', url);
 
-        // Step 5: Send the authenticated request with form data and file
-        final authenticatedResponse = await request.send();
+        // Add the Authorization header
+        request.headers['Authorization'] = authValue;
+        print(authValue);
 
-        log(authenticatedResponse.statusCode.toString(),
-            name: "Response status code");
+        // Add the multipart form fields and the file
+        request.fields['FaceDataRecord'] =
+            '{"faceLibType":"blackFD","FDID":"2","FPID":"18"}';
 
-        if (authenticatedResponse.statusCode == 200) {
-          final responseBody =
-              await authenticatedResponse.stream.bytesToString();
-          print('Authenticated response: $responseBody');
-        } else {
-          final responseBody =
-              await authenticatedResponse.stream.bytesToString();
-          print('Authentication failed: ${authenticatedResponse.statusCode}');
-          print('Authenticated response: $responseBody');
-        }
+        var multipartFile =
+            await http.MultipartFile.fromPath('FaceImage', faceImageFile.path);
+        request.files.add(multipartFile);
+
+        // Send the request
+        var response = await request.send();
+
+        // Await the response stream to get the actual content
+        final responseBody = await response.stream.bytesToString();
+
+        print('Status Code: ${response.statusCode}');
+        print('Response Body: $responseBody');
+      } else {
+        print('Authorization header not found in server response.');
       }
     } else {
       print('Failed to get nonce, status: ${response.statusCode}');
+      print('Response body: ${response.body}');
     }
   }
 }
