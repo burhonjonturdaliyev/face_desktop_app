@@ -5,7 +5,7 @@ class AppTheme {
     return ThemeData(
       primaryColor: Colors.blue,
       hintColor: Colors.blueAccent,
-      scaffoldBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: Colors.grey.shade200,
       cardColor: Colors.white,
       shadowColor: Colors.black.withOpacity(0.1),
       textTheme: TextTheme(
