@@ -53,13 +53,18 @@ class _AddUserScreenState extends State<AddUserScreen> {
         MessengerUtil.showError(context, 'Please select a picture');
         return;
       }
-
       final userData = {
         'firstName': _firstNameController.text.trim(),
         'lastName': _lastNameController.text.trim(),
         'imagePath': _selectedImage!.path,
       };
       MessengerUtil.showSuccess(context, 'User added successfully');
+      _firstNameController.clear();
+      _lastNameController.clear();
+      setState(() {
+        _selectedImage = null;
+        _selectedFileName = null;
+      });
     }
   }
 
@@ -197,7 +202,6 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         },
                       ),
                       const SizedBox(height: 32),
-                      // Save Button
                       SizedBox(
                         height: 50,
                         child: ElevatedButton(
