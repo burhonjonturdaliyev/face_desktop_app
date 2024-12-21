@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:face_app/util/messanger/messangeer_util.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as path;
@@ -32,7 +33,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
         final fileSize = await file.length();
 
         if (fileSize > 5 * 1024 * 1024) {
-          _showMessage('File size should not exceed 5MB');
+          MessengerUtil.showError(context, 'File size should not exceed 5MB');
           return;
         }
 
@@ -42,26 +43,14 @@ class _AddUserScreenState extends State<AddUserScreen> {
         });
       }
     } catch (e) {
-      _showMessage('Error selecting image: $e');
+      MessengerUtil.showError(context, 'Error selecting image: $e');
     }
-  }
-
-  void _showMessage(String message) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        behavior: SnackBarBehavior.floating,
-        width: 400,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      ),
-    );
   }
 
   void _saveProfile() {
     if (_formKey.currentState!.validate()) {
       if (_selectedImage == null) {
-        _showMessage('Please select a picture');
+        MessengerUtil.showError(context, 'Please select a picture');
         return;
       }
 
@@ -70,9 +59,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
         'lastName': _lastNameController.text.trim(),
         'imagePath': _selectedImage!.path,
       };
-
-
-      _showMessage('User added successfully');
+      MessengerUtil.showSuccess(context, 'User added successfully');
     }
   }
 
