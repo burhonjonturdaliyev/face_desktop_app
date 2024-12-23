@@ -1,3 +1,4 @@
+import 'package:face_app/util/messanger/messangeer_util.dart';
 import 'package:flutter/material.dart';
 
 import '../add_user/add_user_screen.dart';
@@ -162,9 +163,7 @@ class _AllUsersState extends State<AllUserScreen> {
           ),
         ),
         onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Tapped on ${user['name']}')),
-          );
+          MessengerUtil.showSuccess(context, 'Tapped on ${user['name']}');
         },
       ),
     );

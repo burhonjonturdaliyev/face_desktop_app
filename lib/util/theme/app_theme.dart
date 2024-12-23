@@ -2,83 +2,106 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   static ThemeData lightTheme(BuildContext context) {
+    final ColorScheme colorScheme = ColorScheme.light(
+      primary: Colors.blue,
+      onPrimary: Colors.white,
+      secondary: Colors.blueAccent,
+      onSecondary: Colors.white,
+      surface: Colors.white,
+      onSurface: Colors.black,
+      background: Colors.grey.shade200,
+      onBackground: Colors.black,
+      error: Colors.red,
+      onError: Colors.white,
+    );
+
     return ThemeData(
-      primaryColor: Colors.blue,
-      hintColor: Colors.blueAccent,
-      scaffoldBackgroundColor: Colors.grey.shade200,
-      cardColor: Colors.white,
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor: colorScheme.background,
+      cardColor: colorScheme.surface,
       shadowColor: Colors.black.withOpacity(0.1),
       textTheme: TextTheme(
-        bodyLarge: TextStyle(color: Colors.black),
-        bodyMedium: TextStyle(color: Colors.black),
-        labelLarge: TextStyle(color: Colors.white),
+        bodyLarge: TextStyle(color: colorScheme.onBackground),
+        bodyMedium: TextStyle(color: colorScheme.onBackground),
+        labelLarge: TextStyle(color: colorScheme.onPrimary),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        labelStyle: TextStyle(color: Colors.blue),
-        prefixIconColor: Colors.blue, // Icon color
+        labelStyle: TextStyle(color: colorScheme.secondary),
+        prefixIconColor: colorScheme.secondary, // Icon color
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.blue),
+          borderSide: BorderSide(color: colorScheme.secondary),
         ),
       ),
       buttonTheme: ButtonThemeData(
-        buttonColor: Colors.blue,
+        buttonColor: colorScheme.primary,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
+          backgroundColor: colorScheme.primary,
         ),
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.blue,
+        backgroundColor: colorScheme.surface,
+        foregroundColor: colorScheme.onSurface,
         elevation: 0,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.blue,
+        backgroundColor: colorScheme.surface,
+        selectedItemColor: colorScheme.primary,
         unselectedItemColor: Colors.grey,
       ),
     );
   }
 
-  // Dark Theme
   static ThemeData darkTheme(BuildContext context) {
+    final ColorScheme colorScheme = ColorScheme.dark(
+      primary: Colors.blueGrey,
+      onPrimary: Colors.white,
+      secondary: Colors.blueAccent,
+      onSecondary: Colors.white,
+      surface: Colors.grey[850]!,
+      onSurface: Colors.white,
+      background: Colors.black,
+      onBackground: Colors.white,
+      error: Colors.red,
+      onError: Colors.white,
+    );
+
     return ThemeData(
-      primaryColor: Colors.blueGrey,
-      hintColor: Colors.blueAccent,
-      scaffoldBackgroundColor: Colors.black,
-      cardColor: Colors.grey[850],
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor: colorScheme.background,
+      cardColor: colorScheme.surface,
       shadowColor: Colors.black.withOpacity(0.7),
       textTheme: TextTheme(
-        bodyLarge: TextStyle(color: Colors.white),
-        bodyMedium: TextStyle(color: Colors.white),
-        labelLarge: TextStyle(color: Colors.white),
+        bodyLarge: TextStyle(color: colorScheme.onBackground),
+        bodyMedium: TextStyle(color: colorScheme.onBackground),
+        labelLarge: TextStyle(color: colorScheme.onPrimary),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        labelStyle: TextStyle(color: Colors.blueAccent),
-        prefixIconColor: Colors.blueAccent,
+        labelStyle: TextStyle(color: colorScheme.secondary),
+        prefixIconColor: colorScheme.secondary,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.blueAccent),
+          borderSide: BorderSide(color: colorScheme.secondary),
         ),
       ),
       buttonTheme: ButtonThemeData(
-        buttonColor: Colors.blueGrey,
+        buttonColor: colorScheme.primary,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: colorScheme.primary,
         ),
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
+        backgroundColor: colorScheme.background,
+        foregroundColor: colorScheme.onSurface,
         elevation: 0,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: Colors.black,
-        selectedItemColor: Colors.blueGrey,
+        backgroundColor: colorScheme.background,
+        selectedItemColor: colorScheme.primary,
         unselectedItemColor: Colors.grey,
       ),
     );
