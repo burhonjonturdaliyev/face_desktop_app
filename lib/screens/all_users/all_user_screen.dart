@@ -1,7 +1,6 @@
-import 'package:face_app/util/messanger/messangeer_util.dart';
 import 'package:flutter/material.dart';
-
 import '../add_user/add_user_screen.dart';
+import 'package:face_app/util/messanger/messangeer_util.dart';
 
 class AllUserScreen extends StatefulWidget {
   const AllUserScreen({super.key});
@@ -20,34 +19,16 @@ class _AllUsersState extends State<AllUserScreen> {
     super.initState();
     users = [
       {
-        "name": "Alice Johnson",
-        "email": "alice@example.com",
+        "firstName": "John",
+        "lastName": "Doe",
         "status": "Active",
-        "profilePicture": "https://via.placeholder.com/150"
+        "imageUrl": null,
       },
       {
-        "name": "Bob Smith",
-        "email": "bob@example.com",
+        "firstName": "Jane",
+        "lastName": "Smith",
         "status": "Inactive",
-        "profilePicture": null
-      },
-      {
-        "name": "Charlie Brown",
-        "email": "charlie@example.com",
-        "status": "Active",
-        "profilePicture": "https://via.placeholder.com/150"
-      },
-      {
-        "name": "Daisy Ridley",
-        "email": "daisy@example.com",
-        "status": "Active",
-        "profilePicture": null
-      },
-      {
-        "name": "Ethan Hunt",
-        "email": "ethan@example.com",
-        "status": "Inactive",
-        "profilePicture": "https://via.placeholder.com/150"
+        "imageUrl": null,
       },
     ];
     filteredUsers = List.from(users);
@@ -58,11 +39,10 @@ class _AllUsersState extends State<AllUserScreen> {
       if (query.isEmpty) {
         filteredUsers = List.from(users);
       } else {
-        filteredUsers = users
-            .where((user) =>
-        user['name'].toLowerCase().contains(query.toLowerCase()) ||
-            user['email'].toLowerCase().contains(query.toLowerCase()))
-            .toList();
+        filteredUsers = users.where((user) {
+          final fullName = "${user['firstName']} ${user['lastName']}".toLowerCase();
+          return fullName.contains(query.toLowerCase());
+        }).toList();
       }
     });
   }
@@ -75,14 +55,25 @@ class _AllUsersState extends State<AllUserScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('All Users'),
+        backgroundColor: theme.primaryColor,
+        title: Text(
+          'All Users',
+          style: theme.textTheme.headlineSmall?.copyWith(
+            color: theme.colorScheme.onPrimary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
+            icon: Icon(Icons.refresh, color: theme.colorScheme.onPrimary),
             onPressed: () {
               setState(() {
+                searchController.clear();
                 filteredUsers = List.from(users);
               });
             },
@@ -91,79 +82,168 @@ class _AllUsersState extends State<AllUserScreen> {
       ),
       body: Column(
         children: [
-          buildSearchBar(),
+          buildSearchBar(theme),
           Expanded(
             child: filteredUsers.isEmpty
-                ? const Center(
-              child: Text(
-                'No users found',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+                ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.search_off_rounded,
+                    size: 48,
+                    color: theme.disabledColor,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'No users found',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: theme.disabledColor,
+                    ),
+                  ),
+                ],
               ),
             )
                 : ListView.builder(
+              padding: const EdgeInsets.all(8),
               itemCount: filteredUsers.length,
               itemBuilder: (context, index) {
                 final user = filteredUsers[index];
-                return buildUserTile(user);
+                return buildUserTile(user, theme);
               },
             ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: theme.primaryColor,
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const AddUserScreen()),
           );
         },
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add, color: theme.colorScheme.onPrimary),
       ),
     );
   }
 
-  Widget buildSearchBar() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+  Widget buildSearchBar(ThemeData theme) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        boxShadow: [
+          BoxShadow(
+            color: theme.shadowColor.withValues(alpha: 0.1),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: TextField(
         controller: searchController,
         onChanged: filterUsers,
+        style: theme.textTheme.bodyLarge,
         decoration: InputDecoration(
-          hintText: 'Search users...',
-          prefixIcon: const Icon(Icons.search),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+          hintText: 'Search by name...',
+          hintStyle: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.hintColor,
           ),
+          prefixIcon: Icon(Icons.search, color: theme.iconTheme.color),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: theme.dividerColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: theme.dividerColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: theme.primaryColor, width: 2),
+          ),
+          filled: true,
+          fillColor: theme.cardColor,
         ),
       ),
     );
   }
 
-  Widget buildUserTile(Map<String, dynamic> user) {
+  Widget buildUserTile(Map<String, dynamic> user, ThemeData theme) {
+    final bool isActive = user['status'] == 'Active';
+    final String fullName = "${user['firstName']} ${user['lastName']}";
+
     return Card(
-      color: Theme.of(context).cardColor,
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: user['status'] == 'Active' ? Colors.green : Colors.red,
-          backgroundImage: user['profilePicture'] != null
-              ? NetworkImage(user['profilePicture'])
-              : null,
-          child: user['profilePicture'] == null
-              ? Text(user['name'][0], style: const TextStyle(color: Colors.white))
-              : null,
+        contentPadding: const EdgeInsets.all(12),
+        leading: Stack(
+          children: [
+            CircleAvatar(
+              radius: 28,
+              backgroundColor: theme.primaryColor.withOpacity(0.1),
+              backgroundImage: user['imageUrl'] != null
+                  ? NetworkImage(user['imageUrl'])
+                  : null,
+              child: user['imageUrl'] == null
+                  ? Text(
+                "${user['firstName'][0]}${user['lastName'][0]}",
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: theme.primaryColor,
+                ),
+              )
+                  : null,
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: Container(
+                width: 16,
+                height: 16,
+                decoration: BoxDecoration(
+                  color: isActive ? Colors.green : Colors.red,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: theme.cardColor,
+                    width: 2,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        title: Text(user['name']),
-        subtitle: Text(user['email']),
-        trailing: Text(
-          user['status'],
-          style: TextStyle(
-            color: user['status'] == 'Active' ? Colors.green : Colors.red,
+        title: Text(
+          fullName,
+          style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
+        trailing: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 6,
+          ),
+          decoration: BoxDecoration(
+            color: isActive
+                ? Colors.green.withOpacity(0.1)
+                : Colors.red.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(
+            user['status'],
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: isActive ? Colors.green : Colors.red,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         onTap: () {
-          MessengerUtil.showSuccess(context, 'Tapped on ${user['name']}');
+          MessengerUtil.showSuccess(context, 'Selected user: $fullName');
         },
       ),
     );

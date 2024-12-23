@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           if (_formKey.currentState?.validate() ?? false) {
                             print('Logging in...');
-                            Navigator.pushReplacementNamed(context, '/main');
+                            Navigator.pushNamedAndRemoveUntil(context, '/main',(Route<dynamic> route) => false,);
                           }
                         },
                         style: ElevatedButton.styleFrom(
