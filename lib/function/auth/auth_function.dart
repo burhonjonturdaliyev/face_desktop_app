@@ -23,7 +23,6 @@ class AuthFunction {
     emit(LoginLoadingState());
 
     try {
-      await Future.delayed(Duration(seconds: 2));
 
       if (username.text == '1' && password.text == '1') {
         emit(LoginSuccessState());
