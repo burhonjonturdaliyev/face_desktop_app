@@ -11,23 +11,14 @@ void main() async {
   final screenSize = await windowManager.getSize();
   WindowOptions windowOptions = WindowOptions(
     size: screenSize,
-    minimumSize: const Size(800, 600),
+    minimumSize: const Size(800, 700),
     center: true,
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.show();
     await windowManager.focus();
   });
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider<MainBloc>(
-          create: (context) => MainBloc(),
-        ),
-      ],
-      child: MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
