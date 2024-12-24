@@ -180,71 +180,74 @@ class _AllUsersState extends State<AllUserScreen> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(12),
-        leading: Stack(
-          children: [
-            CircleAvatar(
-              radius: 28,
-              backgroundColor: theme.primaryColor.withOpacity(0.1),
-              backgroundImage: user['imageUrl'] != null
-                  ? NetworkImage(user['imageUrl'])
-                  : null,
-              child: user['imageUrl'] == null
-                  ? Text(
-                "${user['firstName'][0]}${user['lastName'][0]}",
-                style: theme.textTheme.titleLarge?.copyWith(
-                  color: theme.primaryColor,
-                ),
-              )
-                  : null,
-            ),
-            Positioned(
-              right: 0,
-              bottom: 0,
-              child: Container(
-                width: 16,
-                height: 16,
-                decoration: BoxDecoration(
-                  color: isActive ? Colors.green : Colors.red,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: theme.cardColor,
-                    width: 2,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        title: Text(
-          fullName,
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        trailing: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 6,
-          ),
-          decoration: BoxDecoration(
-            color: isActive
-                ? Colors.green.withOpacity(0.1)
-                : Colors.red.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            user['status'],
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: isActive ? Colors.green : Colors.red,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
         onTap: () {
           MessengerUtil.showSuccess(context, 'Selected user: $fullName');
         },
+        child: ListTile(
+          contentPadding: const EdgeInsets.all(12),
+          leading: Stack(
+            children: [
+              CircleAvatar(
+                radius: 28,
+                backgroundColor: theme.primaryColor.withOpacity(0.1),
+                backgroundImage: user['imageUrl'] != null
+                    ? NetworkImage(user['imageUrl'])
+                    : null,
+                child: user['imageUrl'] == null
+                    ? Text(
+                  "${user['firstName'][0]}${user['lastName'][0]}",
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    color: theme.primaryColor,
+                  ),
+                )
+                    : null,
+              ),
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  width: 16,
+                  height: 16,
+                  decoration: BoxDecoration(
+                    color: isActive ? Colors.green : Colors.red,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: theme.cardColor,
+                      width: 2,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          title: Text(
+            fullName,
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          trailing: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 6,
+            ),
+            decoration: BoxDecoration(
+              color: isActive
+                  ? Colors.green.withOpacity(0.1)
+                  : Colors.red.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              user['status'],
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: isActive ? Colors.green : Colors.red,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

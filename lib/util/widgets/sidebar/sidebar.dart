@@ -94,7 +94,6 @@ class _SidebarState extends State<Sidebar> {
                   title: 'Log Out',
                   isSelected: false,
                   onTap: () {
-                    // Add your logout logic here
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
