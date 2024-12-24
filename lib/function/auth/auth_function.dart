@@ -16,7 +16,7 @@ class AuthFunction {
 
   Future<void> login() async {
     if (username.text.isEmpty || password.text.isEmpty) {
-      emit(LoginErrorState(message: 'Username va password bo\'sh bo\'lmasligi kerak.'));
+      emit(LoginErrorState(message: 'Username and password cannot be empty.'));
       return;
     }
 

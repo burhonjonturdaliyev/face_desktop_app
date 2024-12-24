@@ -1,6 +1,7 @@
 import 'package:face_app/util/widgets/snacbar/scaffold_messanger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../util/widgets/fields/custom_text_field.dart';
 import 'bloc/login_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -18,7 +19,7 @@ class LoginScreen extends StatelessWidget {
         child: SingleChildScrollView(
           padding: EdgeInsets.all(20),
           child: Container(
-            constraints: BoxConstraints(maxWidth: 500),
+            constraints: BoxConstraints(maxWidth: 450),
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: theme.cardColor,
@@ -64,53 +65,17 @@ class LoginScreen extends StatelessWidget {
                   child: Form(
                     child: Column(
                       children: [
-                        // Username field
-                        TextFormField(
+                        CustomTextField(
                           controller: _usernameController,
-                          decoration: InputDecoration(
-                            labelText: 'Username',
-                            labelStyle: TextStyle(color: theme.primaryColor),
-                            prefixIcon:
-                            Icon(Icons.person, color: theme.primaryColor),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: theme.primaryColor, width: 1.0),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: theme.primaryColor, width: 2.0),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
+                          label: 'Username',
+                          icon: Icons.person,
                         ),
                         SizedBox(height: 15),
-                        // Password field
-                        TextFormField(
+                        CustomTextField(
                           controller: _passwordController,
+                          label: 'Password',
+                          icon: Icons.lock,
                           obscureText: true,
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            labelStyle: TextStyle(color: theme.primaryColor),
-                            prefixIcon:
-                            Icon(Icons.lock, color: theme.primaryColor),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: theme.primaryColor, width: 1.0),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: theme.primaryColor, width: 2.0),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
                         ),
                         SizedBox(height: 20),
                         ElevatedButton(
