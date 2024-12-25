@@ -41,45 +41,82 @@ class _SidebarState extends State<Sidebar> {
                           color: Theme.of(context).primaryColor),
                     )),
               ),
-              _buildNavItem(
-                context,
-                icon: Icons.home,
-                title: 'All Users',
-                isSelected: state is MainAllUsersState,
-                onTap: () {
-                  context.read<MainBloc>().add(MainScreenSwitchEvent(index: 0));
-                },
-                index: 0,
+              Expanded(
+                child: Column(
+                  children: [
+                    _buildNavItem(
+                      context,
+                      icon: Icons.home,
+                      title: 'All Users',
+                      isSelected: state is MainAllUsersState,
+                      onTap: () {
+                        context.read<MainBloc>().add(MainScreenSwitchEvent(index: 0));
+                      },
+                      index: 0,
+                    ),
+                    _buildNavItem(
+                      context,
+                      icon: Icons.add,
+                      title: 'Add User',
+                      isSelected: state is MainAddUserState,
+                      onTap: () {
+                        context.read<MainBloc>().add(MainScreenSwitchEvent(index: 1));
+                      },
+                      index: 1,
+                    ),
+                    _buildNavItem(
+                      context,
+                      icon: Icons.person,
+                      title: 'User Management',
+                      isSelected: state is MainUserManagementState,
+                      onTap: () {
+                        context.read<MainBloc>().add(MainScreenSwitchEvent(index: 2));
+                      },
+                      index: 2,
+                    ),
+                    _buildNavItem(
+                      context,
+                      icon: Icons.disabled_by_default,
+                      title: 'Example',
+                      isSelected: state is MainExampleState,
+                      onTap: () {
+                        context.read<MainBloc>().add(MainScreenSwitchEvent(index: 3));
+                      },
+                      index: 3,
+                    ),
+                  ],
+                ),
               ),
-              _buildNavItem(
-                context,
-                icon: Icons.add,
-                title: 'Add User',
-                isSelected: state is MainAddUserState,
-                onTap: () {
-                  context.read<MainBloc>().add(MainScreenSwitchEvent(index: 1));
-                },
-                index: 1,
-              ),
-              _buildNavItem(
-                context,
-                icon: Icons.person,
-                title: 'User Management',
-                isSelected: state is MainUserManagementState,
-                onTap: () {
-                  context.read<MainBloc>().add(MainScreenSwitchEvent(index: 2));
-                },
-                index: 2,
-              ),
-              _buildNavItem(
-                context,
-                icon: Icons.disabled_by_default,
-                title: 'Example',
-                isSelected: state is MainExampleState,
-                onTap: () {
-                  context.read<MainBloc>().add(MainScreenSwitchEvent(index: 3));
-                },
-                index: 3,
+              Container(padding: EdgeInsets.symmetric(vertical: 16),
+                child: _buildNavItem(
+                  context,
+                  icon: Icons.logout,
+                  title: 'Log Out',
+                  isSelected: false,
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Log Out'),
+                        content: const Text('Are you sure you want to log out?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamedAndRemoveUntil(context, '/',(Route<dynamic> route) => false,);
+                              // UserDatas().clearUserDatas;
+                            },
+                            child: const Text('Log Out'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  index: 4,
+                ),
               ),
             ],
           ),
@@ -93,10 +130,8 @@ class _SidebarState extends State<Sidebar> {
         required IconData icon,
         required String title,
         required bool isSelected,
-        bool hasBadge = false,
         required VoidCallback onTap,
         required int index,
-        bool isCompact = false,
       }) {
     final theme = Theme.of(context);
     final primaryColor = theme.primaryColor;
@@ -154,19 +189,6 @@ class _SidebarState extends State<Sidebar> {
               onTap: onTap,
             ),
           ),
-          if (hasBadge)
-            Positioned(
-              right: isCompact ? 16 : 32,
-              top: 12,
-              child: Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
         ],
       ),
     );

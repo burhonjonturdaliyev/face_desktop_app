@@ -1,4 +1,5 @@
 import 'package:face_app/routes/routes.dart';
+import 'package:face_app/screens/auth/bloc/login_bloc.dart';
 import 'package:face_app/screens/main/bloc/main_bloc.dart';
 import 'package:face_app/util/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -11,23 +12,14 @@ void main() async {
   final screenSize = await windowManager.getSize();
   WindowOptions windowOptions = WindowOptions(
     size: screenSize,
-    minimumSize: const Size(800, 600),
+    minimumSize: const Size(800, 700),
     center: true,
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.show();
     await windowManager.focus();
   });
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider<MainBloc>(
-          create: (context) => MainBloc(),
-        ),
-      ],
-      child: MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -35,14 +27,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme(context),
-      darkTheme: AppTheme.darkTheme(context),
-      themeMode: ThemeMode.light,
-      title: 'Login Screen',
-      initialRoute: RouteNames.login,
-      routes: Routes.baseRoutes,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<LoginBloc>(
+          create: (context) => LoginBloc(),
+        ),
+        BlocProvider<MainBloc>(
+          create: (context) => MainBloc(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme(context),
+        darkTheme: AppTheme.darkTheme(context),
+        themeMode: ThemeMode.light,
+        title: 'Login Screen',
+        initialRoute: RouteNames.login,
+        routes: Routes.baseRoutes,
+      ),
     );
   }
 }

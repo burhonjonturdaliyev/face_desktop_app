@@ -81,7 +81,14 @@ class _AddUserScreenState extends State<AddUserScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add User '),
+        backgroundColor: theme.primaryColor,
+        title: Text(
+          'Add Users',
+          style: theme.textTheme.headlineSmall?.copyWith(
+            color: theme.colorScheme.onPrimary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: Container(
         color: Colors.transparent,
