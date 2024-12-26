@@ -66,15 +66,15 @@ class UserControlFunction {
 
     // Check if the file exists and is not empty
     if (!(await faceImageFile.exists())) {
-      print("File does not exist: ${faceImageFile.path}");
+      log("File does not exist: ${faceImageFile.path}");
       return;
     }
 
-    print(faceImageFile.path);
+    log(faceImageFile.path);
 
     final fileLength = await faceImageFile.length();
     if (fileLength == 0) {
-      print("File is empty and will not be uploaded: ${faceImageFile.path}");
+      log("File is empty and will not be uploaded: ${faceImageFile.path}");
       return;
     }
 
@@ -102,7 +102,7 @@ class UserControlFunction {
 
         // Add the Authorization header
         request.headers['Authorization'] = authValue;
-        print(authValue);
+        log(authValue);
 
         // Add the multipart form fields and the file
         request.fields['FaceDataRecord'] =
@@ -118,14 +118,14 @@ class UserControlFunction {
         // Await the response stream to get the actual content
         final responseBody = await response.stream.bytesToString();
 
-        print('Status Code: ${response.statusCode}');
-        print('Response Body: $responseBody');
+        log('Status Code: ${response.statusCode}');
+        log('Response Body: $responseBody');
       } else {
-        print('Authorization header not found in server response.');
+        log('Authorization header not found in server response.');
       }
     } else {
-      print('Failed to get nonce, status: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      log('Failed to get nonce, status: ${response.statusCode}');
+      log('Response body: ${response.body}');
     }
   }
 }

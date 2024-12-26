@@ -4,11 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../util/widgets/fields/custom_text_field.dart';
 import 'bloc/login_bloc.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool isLoading = false;
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -53,13 +59,11 @@ class LoginScreen extends StatelessWidget {
                       Navigator.pushNamedAndRemoveUntil(
                         context,
                         '/main',
-                            (Route<dynamic> route) => false,
+                        (Route<dynamic> route) => false,
                       );
                     } else if (state is LoginErrorState) {
                       ScaffoldMessengerUtil.showErrorSnackBar(
-                          context,
-                          state.message
-                      );
+                          context, state.message);
                     }
                   },
                   child: Form(
@@ -81,11 +85,11 @@ class LoginScreen extends StatelessWidget {
                         ElevatedButton(
                           onPressed: () {
                             context.read<LoginBloc>().add(
-                              AuthLoginEvent(
-                                username: _usernameController,
-                                password: _passwordController,
-                              ),
-                            );
+                                  AuthLoginEvent(
+                                    username: _usernameController,
+                                    password: _passwordController,
+                                  ),
+                                );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: theme.primaryColor,
@@ -94,7 +98,7 @@ class LoginScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: Container(
+                          child: SizedBox(
                             width: double.infinity,
                             child: Center(
                               child: Text(

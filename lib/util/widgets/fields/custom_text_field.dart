@@ -7,12 +7,12 @@ class CustomTextField extends StatefulWidget {
   final bool obscureText;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.label,
     required this.icon,
     this.obscureText = false,
-  }) : super(key: key);
+  });
 
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -24,7 +24,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   void initState() {
     super.initState();
-    _obscureText = widget.obscureText; // Initialize with the passed obscureText value
+    _obscureText =
+        widget.obscureText; // Initialize with the passed obscureText value
   }
 
   @override
@@ -40,28 +41,26 @@ class _CustomTextFieldState extends State<CustomTextField> {
         prefixIcon: Icon(widget.icon, color: theme.primaryColor),
         suffixIcon: widget.obscureText
             ? IconButton(
-          icon: Icon(
-            _obscureText ? Icons.visibility_off : Icons.visibility,
-            color: theme.primaryColor,
-          ),
-          onPressed: () {
-            setState(() {
-              _obscureText = !_obscureText;
-            });
-          },
-        )
+                icon: Icon(
+                  _obscureText ? Icons.visibility_off : Icons.visibility,
+                  color: theme.primaryColor,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+              )
             : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-              color: theme.primaryColor, width: 1.0),
+          borderSide: BorderSide(color: theme.primaryColor, width: 1.0),
           borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-              color: theme.primaryColor, width: 2.0),
+          borderSide: BorderSide(color: theme.primaryColor, width: 2.0),
           borderRadius: BorderRadius.circular(10),
         ),
       ),

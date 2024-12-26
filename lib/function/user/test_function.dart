@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
@@ -145,17 +147,17 @@ Future<void> modifyFaceData({
     if (response.statusCode == 200) {
       try {
         final jsonResponse = jsonDecode(response.body);
-        print('Response: $jsonResponse');
+        log('Response: $jsonResponse');
       } catch (e) {
-        print('Response is not in JSON format: ${response.body}');
+        log('Response is not in JSON format: ${response.body}');
       }
     } else {
-      print('Request failed with status: ${response.statusCode}');
-      print('Error: ${response.body}');
+      log('Request failed with status: ${response.statusCode}');
+      log('Error: ${response.body}');
     }
   } on SocketException catch (e) {
-    print('Network error: $e');
+    log('Network error: $e');
   } catch (e) {
-    print('Error during request: $e');
+    log('Error during request: $e');
   }
 }

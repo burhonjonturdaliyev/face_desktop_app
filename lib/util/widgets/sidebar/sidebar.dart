@@ -1,5 +1,4 @@
 import 'package:face_app/screens/main/bloc/main_bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,12 +33,12 @@ class _SidebarState extends State<Sidebar> {
                 height: 100,
                 child: Center(
                     child: Text(
-                      'Hikvision',
-                      style: TextStyle(
-                          fontSize: 38,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor),
-                    )),
+                  'Hikvision',
+                  style: TextStyle(
+                      fontSize: 38,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor),
+                )),
               ),
               Expanded(
                 child: Column(
@@ -50,7 +49,9 @@ class _SidebarState extends State<Sidebar> {
                       title: 'All Users',
                       isSelected: state is MainAllUsersState,
                       onTap: () {
-                        context.read<MainBloc>().add(MainScreenSwitchEvent(index: 0));
+                        context
+                            .read<MainBloc>()
+                            .add(MainScreenSwitchEvent(index: 0));
                       },
                       index: 0,
                     ),
@@ -60,7 +61,9 @@ class _SidebarState extends State<Sidebar> {
                       title: 'Add User',
                       isSelected: state is MainAddUserState,
                       onTap: () {
-                        context.read<MainBloc>().add(MainScreenSwitchEvent(index: 1));
+                        context
+                            .read<MainBloc>()
+                            .add(MainScreenSwitchEvent(index: 1));
                       },
                       index: 1,
                     ),
@@ -70,7 +73,9 @@ class _SidebarState extends State<Sidebar> {
                       title: 'User Management',
                       isSelected: state is MainUserManagementState,
                       onTap: () {
-                        context.read<MainBloc>().add(MainScreenSwitchEvent(index: 2));
+                        context
+                            .read<MainBloc>()
+                            .add(MainScreenSwitchEvent(index: 2));
                       },
                       index: 2,
                     ),
@@ -80,14 +85,17 @@ class _SidebarState extends State<Sidebar> {
                       title: 'Example',
                       isSelected: state is MainExampleState,
                       onTap: () {
-                        context.read<MainBloc>().add(MainScreenSwitchEvent(index: 3));
+                        context
+                            .read<MainBloc>()
+                            .add(MainScreenSwitchEvent(index: 3));
                       },
                       index: 3,
                     ),
                   ],
                 ),
               ),
-              Container(padding: EdgeInsets.symmetric(vertical: 16),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 16),
                 child: _buildNavItem(
                   context,
                   icon: Icons.logout,
@@ -98,7 +106,8 @@ class _SidebarState extends State<Sidebar> {
                       context: context,
                       builder: (context) => AlertDialog(
                         title: const Text('Log Out'),
-                        content: const Text('Are you sure you want to log out?'),
+                        content:
+                            const Text('Are you sure you want to log out?'),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.pop(context),
@@ -106,7 +115,11 @@ class _SidebarState extends State<Sidebar> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.pushNamedAndRemoveUntil(context, '/',(Route<dynamic> route) => false,);
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                '/',
+                                (Route<dynamic> route) => false,
+                              );
                               // UserDatas().clearUserDatas;
                             },
                             child: const Text('Log Out'),
@@ -126,13 +139,13 @@ class _SidebarState extends State<Sidebar> {
   }
 
   Widget _buildNavItem(
-      BuildContext context, {
-        required IconData icon,
-        required String title,
-        required bool isSelected,
-        required VoidCallback onTap,
-        required int index,
-      }) {
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required bool isSelected,
+    required VoidCallback onTap,
+    required int index,
+  }) {
     final theme = Theme.of(context);
     final primaryColor = theme.primaryColor;
     final hoverColor = primaryColor.withOpacity(0.3);
@@ -156,16 +169,14 @@ class _SidebarState extends State<Sidebar> {
               borderRadius: BorderRadius.circular(10),
               color: _isHoveredMap[index] == true
                   ? hoverColor
-                  : (isSelected
-                  ? hoverColor
-                  : Colors.transparent),
+                  : (isSelected ? hoverColor : Colors.transparent),
               border: isSelected
                   ? Border(
-                right: BorderSide(
-                  color: primaryColor,
-                  width: 4,
-                ),
-              )
+                      right: BorderSide(
+                        color: primaryColor,
+                        width: 4,
+                      ),
+                    )
                   : null,
             ),
             child: ListTile(
@@ -181,8 +192,7 @@ class _SidebarState extends State<Sidebar> {
                 title,
                 style: theme.textTheme.bodyLarge?.copyWith(
                   color: isSelected ? primaryColor : Colors.black87,
-                  fontWeight:
-                  isSelected ? FontWeight.w600 : FontWeight.normal,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                 ),
               ),
               selected: isSelected,

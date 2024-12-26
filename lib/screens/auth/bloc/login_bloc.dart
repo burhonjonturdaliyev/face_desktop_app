@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:meta/meta.dart';
 
 import '../../../function/auth/auth_function.dart';
 
@@ -17,9 +16,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   FutureOr<void> authLoginEvent(
       AuthLoginEvent event, Emitter<LoginState> emit) async {
     await AuthFunction(
-        emit: emit,
-        username: event.username,
-        password: event.password
-    ).login();
+            emit: emit, username: event.username, password: event.password)
+        .login();
   }
 }
