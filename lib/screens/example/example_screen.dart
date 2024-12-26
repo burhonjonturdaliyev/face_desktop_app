@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:face_app/function/user/test_function.dart';
 import 'package:face_app/function/user/user_control_function.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -51,6 +52,8 @@ class _ExampleScreenState extends State<ExampleScreen> {
     });
 
     try {
+      await modifyFaceData(
+          imagePath: _selectedImage?.path ?? "", fdid: "1", fpid: "1");
       await UserControlFunction().postFile(_selectedImage!);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Image uploaded successfully')),

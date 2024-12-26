@@ -9,6 +9,7 @@ import 'package:window_manager/window_manager.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
+
   final screenSize = await windowManager.getSize();
   WindowOptions windowOptions = WindowOptions(
     size: screenSize,
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         darkTheme: AppTheme.darkTheme(context),
         themeMode: ThemeMode.light,
         title: 'Login Screen',
-        initialRoute: RouteNames.login,
+        initialRoute: RouteNames.example,
         routes: Routes.baseRoutes,
       ),
     );
@@ -51,3 +52,4 @@ class MyApp extends StatelessWidget {
 
 
 //test commit 1
+//test commit 2
