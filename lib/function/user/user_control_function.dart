@@ -98,28 +98,41 @@ class UserControlFunction {
             'uri="${parts['uri']}", '
             'response="$responseDigest"';
 
-        final request = http.MultipartRequest('POST', url);
+        try {
+          var request = http.MultipartRequest('POST', Uri.parse(uri));
 
-        // Add the Authorization header
-        request.headers['Authorization'] = authValue;
-        log(authValue);
+          // Add the Authorization header
+          request.headers['Authorization'] = authValue;
 
-        // Add the multipart form fields and the file
-        request.fields['FaceDataRecord'] =
-            '{"faceLibType":"blackFD","FDID":"2","FPID":"18"}';
+          // Add the multipart form fields
+          request.fields['FaceDataRecord'] =
+              jsonEncode({"faceLibType": "blackFD", "FDID": "1", "FPID": "29"});
 
-        var multipartFile =
-            await http.MultipartFile.fromPath('FaceImage', faceImageFile.path);
-        request.files.add(multipartFile);
+          // Add the file
+          request.files.add(await http.MultipartFile.fromPath(
+              'FaceImage', faceImageFile.path));
 
-        // Send the request
-        var response = await request.send();
+          // Send the request
+          final streamedResponse = await request.send();
+          final response = await http.Response.fromStream(streamedResponse);
 
-        // Await the response stream to get the actual content
-        final responseBody = await response.stream.bytesToString();
-
-        log('Status Code: ${response.statusCode}');
-        log('Response Body: $responseBody');
+          if (response.statusCode == 200) {
+            log('Status Code: ${response.statusCode}');
+            log('Response Body: ${response.body}');
+            try {
+              final decodedResponse = jsonDecode(response.body);
+              log('Decoded Response: $decodedResponse');
+            } catch (e) {
+              log('Error decoding JSON: $e');
+              log('Raw Response Body: ${response.body}');
+            }
+          } else {
+            log('Upload failed with status code: ${response.statusCode}');
+            log('Response Body: ${response.body}');
+          }
+        } catch (e) {
+          log('Error during file upload: $e');
+        }
       } else {
         log('Authorization header not found in server response.');
       }

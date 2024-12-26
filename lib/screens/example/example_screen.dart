@@ -52,8 +52,8 @@ class _ExampleScreenState extends State<ExampleScreen> {
     });
 
     try {
-      await modifyFaceData(
-          imagePath: _selectedImage?.path ?? "", fdid: "1", fpid: "1");
+      // await modifyFaceData(
+      //     imagePath: _selectedImage?.path ?? "", fdid: "1", fpid: "1");
       await UserControlFunction().postFile(_selectedImage!);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Image uploaded successfully')),
